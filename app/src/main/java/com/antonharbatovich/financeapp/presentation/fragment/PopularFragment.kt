@@ -18,7 +18,6 @@ class PopularFragment : BaseFragment() {
 
     override fun setupOnCreateView() {
         App.appComponent.inject(this)
-        setTextCurrency(popularViewModel.baseCurrency)
     }
 
     override fun changeBaseCurrency(base: String) {
@@ -27,6 +26,10 @@ class PopularFragment : BaseFragment() {
 
     override fun setOrder(selectValue: String) {
         popularViewModel.sortOrder(selectValue)
+    }
+
+    override fun setListSymbols(): List<String> {
+       return popularViewModel.setListSymbols()
     }
 
     private fun observeUISate() {

@@ -25,4 +25,18 @@ class RemoteRepositoryImpl @Inject constructor(
             emit(Result.Error(errorMessage))
         }
     }
+
+    override suspend fun getSymbols(): Flow<Result<List<String>>> = flow {
+        val response = service.getSymbols()
+        if (response.isSuccessful) {
+            val symbols: List<String> =
+                response.body()!!.symbols.entries.map { entry ->
+                    entry.key
+                }
+            emit(Result.Success(symbols))
+        } else {
+            val errorMessage = response.message()
+            emit(Result.Error(errorMessage))
+        }
+    }
 }

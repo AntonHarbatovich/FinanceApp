@@ -1,10 +1,7 @@
 package com.antonharbatovich.financeapp.presentation.base
 
 import android.os.Bundle
-import android.view.ContextThemeWrapper
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import com.antonharbatovich.financeapp.R
@@ -18,7 +15,6 @@ abstract class BaseFragment : Fragment() {
     private var _binding: BaseFragmentBinding? = null
     private val binding get() = _binding!!
     private val adapter = BaseAdapter()
-    private lateinit var currencyName: String
     private var itemDialogIndex = 0
 
     override fun onCreateView(
@@ -37,7 +33,7 @@ abstract class BaseFragment : Fragment() {
         setIconMenu()
         setupOnViewCreated()
         setOnClickListener()
-        currencyName = view.context.getString(R.string.currency_name_usd)
+        setTextCurrency(view.context.getString(R.string.currency_name_usd))
     }
 
     private fun setOnClickListener() {
@@ -50,45 +46,29 @@ abstract class BaseFragment : Fragment() {
         binding.baseFragmentToolbarMenuCurrency.setOnClickListener {
             val popupWrapper = ContextThemeWrapper(requireActivity(), R.style.PopupMenu)
             val popupMenu = PopupMenu(popupWrapper, it)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.usd -> {
-                        setCurrencyName(R.string.currency_name_usd)
-                        changeBaseCurrency(currencyName)
-                        true
-                    }
-                    R.id.eur -> {
-                        setCurrencyName(R.string.currency_name_eur)
-                        changeBaseCurrency(currencyName)
-                        true
-                    }
-                    R.id.rub -> {
-                        setCurrencyName(R.string.currency_name_rub)
-                        changeBaseCurrency(currencyName)
-                        true
-                    }
-                    R.id.byn -> {
-                        setCurrencyName(R.string.currency_name_byn)
-                        changeBaseCurrency(currencyName)
-                        true
-                    }
-                    else -> false
-                }
+            val listSymbols = setListSymbols()
+
+            for (i in listSymbols.indices) {
+                popupMenu.menu.add(i, Menu.FIRST, i, listSymbols[i])
             }
-            popupMenu.inflate(R.menu.menu_currency)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    setCurrencyName(item.title.toString())
+                    changeBaseCurrency(item.title.toString())
+                    false
+                }
             popupMenu.show()
         }
     }
 
-    private fun setCurrencyName(currency: Int) {
-        currencyName = requireActivity().getString(currency)
-        setTextCurrency(currencyName)
+    private fun setCurrencyName(currency: String) {
+        setTextCurrency(currency)
     }
 
     abstract fun setupOnViewCreated()
     abstract fun setupOnCreateView()
     abstract fun changeBaseCurrency(base: String)
     abstract fun setOrder(selectValue: String)
+    abstract fun setListSymbols(): List<String>
 
     private fun openSortDialogFragment() {
 
@@ -110,7 +90,7 @@ abstract class BaseFragment : Fragment() {
             }.show()
     }
 
-    fun setTextCurrency(text: String) {
+    private fun setTextCurrency(text: String) {
         binding.baseFragmentToolbarCurrencyName.text = text
     }
 

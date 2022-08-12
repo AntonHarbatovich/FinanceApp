@@ -15,7 +15,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/base_fragment_toolbar_menu_currency"
-            android:layout_width="@dimen/size_70"
+            android:layout_width="@dimen/size_140"
             android:layout_height="@dimen/size_zero"
             android:layout_marginStart="@dimen/size_16"
             android:layout_marginTop="@dimen/size_8"
@@ -37,11 +37,10 @@
                 android:layout_height="wrap_content"
                 tools:text="USD"
                 android:padding="@dimen/size_zero"
-                android:layout_gravity="start|center_vertical"
+                android:layout_gravity="center"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16"
-                android:layout_marginStart="@dimen/size_8"
                />
 
             <androidx.appcompat.widget.AppCompatImageView

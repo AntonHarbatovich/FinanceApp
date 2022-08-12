@@ -3,6 +3,7 @@ package com.antonharbatovich.financeapp.data.api
 import com.antonharbatovich.financeapp.BuildConfig.API_KEY
 import com.antonharbatovich.financeapp.BuildConfig.BASE_URL
 import com.antonharbatovich.financeapp.data.ExchangeRatesResponse
+import com.antonharbatovich.financeapp.data.api.entity.SymbolsResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,9 +16,12 @@ import retrofit2.http.Query
 interface ExchangeRatesService {
 
     @GET("latest")
-   suspend fun getLatestCurrencies(
+    suspend fun getLatestCurrencies(
         @Query("base") base: String
     ): Response<ExchangeRatesResponse>
+
+    @GET("symbols")
+    suspend fun getSymbols():Response<SymbolsResponse>
 }
 
 fun ExchangeRatesService(): ExchangeRatesService {

@@ -1,4 +1,4 @@
-package com.antonharbatovich.financeapp.domain.sortorderusecase
+package com.antonharbatovich.financeapp.domain.usecase.sortorderusecase
 
 import com.antonharbatovich.financeapp.data.Currency
 
