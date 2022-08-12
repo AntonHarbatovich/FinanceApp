@@ -1,4 +1,4 @@
-package com.antonharbatovich.financeapp.presentation
+package com.antonharbatovich.financeapp.presentation.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +26,11 @@ class BaseFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getLatestCurrencies()
+
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -1,9 +1,11 @@
-package com.antonharbatovich.financeapp
+package com.antonharbatovich.financeapp.presentation.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.antonharbatovich.financeapp.App
+import com.antonharbatovich.financeapp.R
 import com.antonharbatovich.financeapp.databinding.ActivityMainBinding
 
 
