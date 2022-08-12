@@ -1,5 +1,6 @@
 package com.antonharbatovich.financeapp.domain.getlatestcurrenciesusecase
 
+import com.antonharbatovich.financeapp.data.Currency
 import com.antonharbatovich.financeapp.data.ExchangeRatesResponse
 import com.antonharbatovich.financeapp.domain.entity.Result
 import com.antonharbatovich.financeapp.domain.repository.RemoteRepository
@@ -9,6 +10,6 @@ import javax.inject.Inject
 class GetLatestCurrenciesUseCaseImpl @Inject constructor(
     private val repository: RemoteRepository
 ) : GetLatestCurrenciesUseCase {
-    override suspend fun invoke(): Flow<Result<ExchangeRatesResponse>> =
-        repository.getLatestCurrencies()
+    override suspend fun invoke(base:String): Flow<Result<List<Currency>>> =
+        repository.getLatestCurrencies(base)
 }

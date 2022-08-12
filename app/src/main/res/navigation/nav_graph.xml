@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/baseFragment">
+    app:startDestination="@id/popularFragment">
+
 
     <fragment
-        android:id="@+id/baseFragment"
-        android:name="com.antonharbatovich.financeapp.presentation.base.BaseFragment"
-        android:label="BaseFragment"
+        android:id="@+id/popularFragment"
+        android:name="com.antonharbatovich.financeapp.presentation.fragment.PopularFragment"
+        android:label="PopularFragment"
         tools:layout="@layout/base_fragment"/>
 </navigation>

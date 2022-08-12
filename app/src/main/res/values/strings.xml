@@ -3,4 +3,8 @@
     <string name="hint_search">Search</string>
     <string name="text_popular">Popular</string>
     <string name="text_favourites">Favourites</string>
+    <string name="currency_name_usd">USD</string>
+    <string name="currency_name_eur">EUR</string>
+    <string name="currency_name_rub">RUB</string>
+    <string name="currency_name_byn">BYN</string>
 </resources>
