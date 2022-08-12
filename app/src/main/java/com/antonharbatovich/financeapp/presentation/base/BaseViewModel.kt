@@ -1,39 +1,17 @@
 package com.antonharbatovich.financeapp.presentation.base
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.antonharbatovich.financeapp.data.ExchangeRatesResponse
-import com.antonharbatovich.financeapp.domain.entity.Result
-import com.antonharbatovich.financeapp.domain.getlatestcurrenciesusecase.GetLatestCurrenciesUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
+import com.antonharbatovich.financeapp.domain.entity.UIState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-class BaseViewModel @Inject constructor(
-    private val getLatestCurrenciesUseCase: GetLatestCurrenciesUseCase
-) : ViewModel() {
+abstract class BaseViewModel() : ViewModel() {
 
-    private var response:ExchangeRatesResponse? = null
+    private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
+    val uiState: StateFlow<UIState> = _uiState
 
-    fun getLatestCurrencies() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                getLatestCurrenciesUseCase().collect { result ->
-                    when (result) {
-                        is Result.Loading -> {}
-                        is Result.Success -> {
-                            result.data?.let {
-                                response = it
-                            }
-                            Log.e("BaseViewModel", "${result.data}")
-                        }
-                        is Result.Error -> {}
-                    }
-                }
-            }
-        }
+    fun setUiState(value: UIState) {
+        _uiState.value = value
     }
 
 }

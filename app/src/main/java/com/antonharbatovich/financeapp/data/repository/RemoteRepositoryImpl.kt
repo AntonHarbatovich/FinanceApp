@@ -1,6 +1,6 @@
 package com.antonharbatovich.financeapp.data.repository
 
-import com.antonharbatovich.financeapp.data.ExchangeRatesResponse
+import com.antonharbatovich.financeapp.data.Currency
 import com.antonharbatovich.financeapp.data.api.ExchangeRatesService
 import com.antonharbatovich.financeapp.domain.entity.Result
 import com.antonharbatovich.financeapp.domain.repository.RemoteRepository
@@ -11,18 +11,32 @@ import javax.inject.Inject
 class RemoteRepositoryImpl @Inject constructor(
     private val service: ExchangeRatesService
 ) : RemoteRepository {
-    override suspend fun getLatestCurrencies(): Flow<Result<ExchangeRatesResponse>> = flow {
+    override suspend fun getLatestCurrencies(base: String): Flow<Result<List<Currency>>> = flow {
         emit(Result.Loading())
-        val response = service.getLatestCurrencies(USD)
+        val response = service.getLatestCurrencies(base)
         if (response.isSuccessful) {
-            emit(Result.Success(response.body()!!))
+            val currencies: List<Currency> =
+                response.body()!!.rates.entries.map { entry ->
+                    Currency(response.body()!!.base, entry.key, entry.value)
+                }
+            emit(Result.Success(currencies))
         } else {
             val errorMessage = response.message()
             emit(Result.Error(errorMessage))
         }
     }
 
-    companion object {
-        const val USD = "USD"
+    override suspend fun getSymbols(): Flow<Result<List<String>>> = flow {
+        val response = service.getSymbols()
+        if (response.isSuccessful) {
+            val symbols: List<String> =
+                response.body()!!.symbols.entries.map { entry ->
+                    entry.key
+                }
+            emit(Result.Success(symbols))
+        } else {
+            val errorMessage = response.message()
+            emit(Result.Error(errorMessage))
+        }
     }
 }

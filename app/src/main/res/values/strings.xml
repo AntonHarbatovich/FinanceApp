@@ -3,4 +3,8 @@
     <string name="hint_search">Search</string>
     <string name="text_popular">Popular</string>
     <string name="text_favourites">Favourites</string>
+    <string name="currency_name_usd">USD</string>
+    <string name="title_sort">Sort</string>
+    <string name="title_button_ok">ok</string>
+    <string name="title_button_cancel">cancel</string>
 </resources>
