@@ -7,4 +7,7 @@
     <string name="currency_name_eur">EUR</string>
     <string name="currency_name_rub">RUB</string>
     <string name="currency_name_byn">BYN</string>
+    <string name="title_sort">Sort</string>
+    <string name="title_button_ok">ok</string>
+    <string name="title_button_cancel">cancel</string>
 </resources>

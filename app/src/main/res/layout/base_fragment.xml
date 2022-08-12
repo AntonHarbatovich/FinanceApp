@@ -15,7 +15,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/base_fragment_toolbar_menu_currency"
-            android:layout_width="70dp"
+            android:layout_width="@dimen/size_70"
             android:layout_height="@dimen/size_zero"
             android:layout_marginStart="@dimen/size_16"
             android:layout_marginTop="@dimen/size_8"

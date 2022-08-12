@@ -25,6 +25,10 @@ class PopularFragment : BaseFragment() {
         popularViewModel.changeBaseCurrency(base)
     }
 
+    override fun setOrder(selectValue: String) {
+        popularViewModel.sortOrder(selectValue)
+    }
+
     private fun observeUISate() {
         viewLifecycleOwner.lifecycleScope.launch {
             popularViewModel.uiState.collect { uiState ->
@@ -36,6 +40,9 @@ class PopularFragment : BaseFragment() {
                     }
                     is UIState.Error -> {
                         Snackbar.make(requireView(), uiState.message, Snackbar.LENGTH_LONG).show()
+                    }
+                    is UIState.SortedOrder -> {
+                        setCurrencies(uiState.data)
                     }
                 }
             }

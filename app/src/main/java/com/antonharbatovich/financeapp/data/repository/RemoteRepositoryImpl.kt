@@ -17,7 +17,7 @@ class RemoteRepositoryImpl @Inject constructor(
         if (response.isSuccessful) {
             val currencies: List<Currency> =
                 response.body()!!.rates.entries.map { entry ->
-                    Currency(entry.key, entry.value)
+                    Currency(response.body()!!.base, entry.key, entry.value)
                 }
             emit(Result.Success(currencies))
         } else {

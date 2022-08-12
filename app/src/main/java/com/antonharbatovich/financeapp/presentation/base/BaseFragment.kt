@@ -11,6 +11,7 @@ import com.antonharbatovich.financeapp.R
 import com.antonharbatovich.financeapp.data.Currency
 import com.antonharbatovich.financeapp.databinding.BaseFragmentBinding
 import com.antonharbatovich.financeapp.presentation.adapter.BaseAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 abstract class BaseFragment : Fragment() {
 
@@ -18,6 +19,7 @@ abstract class BaseFragment : Fragment() {
     private val binding get() = _binding!!
     private val adapter = BaseAdapter()
     private lateinit var currencyName: String
+    private var itemDialogIndex = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +36,14 @@ abstract class BaseFragment : Fragment() {
         setAdapter()
         setIconMenu()
         setupOnViewCreated()
+        setOnClickListener()
         currencyName = view.context.getString(R.string.currency_name_usd)
+    }
+
+    private fun setOnClickListener() {
+        binding.baseFragmentToolbarButtonSort.setOnClickListener {
+            openSortDialogFragment()
+        }
     }
 
     private fun setIconMenu() {
@@ -79,6 +88,27 @@ abstract class BaseFragment : Fragment() {
     abstract fun setupOnViewCreated()
     abstract fun setupOnCreateView()
     abstract fun changeBaseCurrency(base: String)
+    abstract fun setOrder(selectValue: String)
+
+    private fun openSortDialogFragment() {
+
+        val itemsTitle = resources.getStringArray(R.array.sorted_name)
+        val itemsValue = resources.getStringArray(R.array.sorted_value)
+        var selectValue: String = itemsValue[itemDialogIndex]
+        MaterialAlertDialogBuilder(requireActivity())
+            .setTitle(getString(R.string.title_sort))
+            .setSingleChoiceItems(itemsTitle, itemDialogIndex) { dialog, which ->
+                itemDialogIndex = which
+                selectValue = itemsValue[which]
+            }
+            .setPositiveButton(getString(R.string.title_button_ok)) { dialog, which ->
+                setOrder(selectValue)
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.title_button_cancel)) { dialog, which ->
+                dialog.cancel()
+            }.show()
+    }
 
     fun setTextCurrency(text: String) {
         binding.baseFragmentToolbarCurrencyName.text = text
