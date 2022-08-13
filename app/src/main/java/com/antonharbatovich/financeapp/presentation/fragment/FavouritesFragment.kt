@@ -5,41 +5,43 @@ import com.antonharbatovich.financeapp.App
 import com.antonharbatovich.financeapp.domain.entity.Currency
 import com.antonharbatovich.financeapp.domain.entity.UIState
 import com.antonharbatovich.financeapp.presentation.base.BaseFragment
-import com.antonharbatovich.financeapp.presentation.viewmodel.PopularViewModel
+import com.antonharbatovich.financeapp.presentation.viewmodel.FavouritesViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PopularFragment : BaseFragment() {
+class FavouritesFragment : BaseFragment() {
+
     @Inject
-    lateinit var popularViewModel: PopularViewModel
+    lateinit var viewModel: FavouritesViewModel
+
     override fun setupOnViewCreated() {
         observeUISate()
     }
 
     override fun setupOnCreateView() {
         App.appComponent.inject(this)
-        popularViewModel.getLatestCurrencies()
-        popularViewModel.getSymbols()
+        viewModel.getListCurrenciesDb()
+        viewModel.getSymbols()
     }
 
     override fun changeBaseCurrency(base: String) {
-        popularViewModel.changeBaseCurrency(base)
+        viewModel.changeBaseCurrency(base)
     }
 
     override fun setOrder(selectValue: String) {
-        popularViewModel.sortOrder(selectValue)
+        viewModel.sortOrder(selectValue)
     }
 
-    override fun setListSymbols(): List<String> = popularViewModel.setListSymbols()
+    override fun setListSymbols(): List<String> = viewModel.setListSymbols()
 
     override fun onStarClickListener(currency: Currency) {
-        popularViewModel.onStarClicked(currency)
+        viewModel.onStarClicked(currency)
     }
 
     private fun observeUISate() {
         viewLifecycleOwner.lifecycleScope.launch {
-            popularViewModel.uiState.collect { uiState ->
+            viewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is UIState.Loading -> startLoadingIndicator()
                     is UIState.Success -> {

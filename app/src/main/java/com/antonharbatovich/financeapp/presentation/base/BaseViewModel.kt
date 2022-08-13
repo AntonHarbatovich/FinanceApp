@@ -18,6 +18,10 @@ abstract class BaseViewModel() : ViewModel() {
         _uiState.value = value
     }
 
+    fun setListSymbols(): List<String> {
+        return listSymbols
+    }
+
     companion object {
         const val BASE = "USD"
     }

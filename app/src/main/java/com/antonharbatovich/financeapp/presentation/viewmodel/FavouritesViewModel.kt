@@ -5,9 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.antonharbatovich.financeapp.domain.entity.Currency
 import com.antonharbatovich.financeapp.domain.entity.Result
 import com.antonharbatovich.financeapp.domain.entity.UIState
-import com.antonharbatovich.financeapp.domain.usecase.checklatestcurrenciesusecase.CheckLatestCurrenciesUseCase
 import com.antonharbatovich.financeapp.domain.usecase.deletedbcurrencyusecase.DeleteDbCurrencyUseCase
-import com.antonharbatovich.financeapp.domain.usecase.getlatestcurrenciesusecase.GetLatestCurrenciesUseCase
+import com.antonharbatovich.financeapp.domain.usecase.getlistdbcurrenciesusecase.GetListCurrenciesDbUseCase
 import com.antonharbatovich.financeapp.domain.usecase.getsymbolsusecase.GetSymbolsUseCase
 import com.antonharbatovich.financeapp.domain.usecase.insertdbcurrencyusecase.InsertDbCurrencyUseCase
 import com.antonharbatovich.financeapp.domain.usecase.sortorderusecase.SortOrderUseCase
@@ -17,35 +16,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class PopularViewModel @Inject constructor(
-    private val getLatestCurrenciesUseCase: GetLatestCurrenciesUseCase,
-    private val checkLatestCurrenciesUseCase: CheckLatestCurrenciesUseCase,
-    private val sortOrderUseCase: SortOrderUseCase,
+class FavouritesViewModel @Inject constructor(
+    private val getListCurrenciesDbUseCase: GetListCurrenciesDbUseCase,
     private val getSymbolsUseCase: GetSymbolsUseCase,
-    private val insertDbCurrencyUseCase: InsertDbCurrencyUseCase,
+    private val sortOrderUseCase: SortOrderUseCase,
+    private val insertDbCurrencyUseCase:InsertDbCurrencyUseCase,
     private val deleteDbCurrencyUseCase: DeleteDbCurrencyUseCase
 ) : BaseViewModel() {
 
 
-    fun getLatestCurrencies() {
+
+     fun getListCurrenciesDb() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                getLatestCurrenciesUseCase(baseCurrency).collect { result ->
-                    when (result) {
-                        is Result.Loading -> setUiState(UIState.Loading)
-                        is Result.Success -> {
-                            result.data?.let { data ->
-                                listCurrencies = checkLatestCurrenciesUseCase(data)
-                                setUiState(UIState.Success(listCurrencies))
-                            }
-                        }
-                        is Result.Error -> {
-                            result.message?.let { message ->
-                                setUiState(UIState.Error(message))
-                            }
-                        }
-                    }
-                }
+                listCurrencies = getListCurrenciesDbUseCase(baseCurrency)
+                setUiState(UIState.Success(listCurrencies))
             }
         }
     }
@@ -74,7 +59,7 @@ class PopularViewModel @Inject constructor(
 
     fun changeBaseCurrency(base: String) {
         baseCurrency = base
-        getLatestCurrencies()
+        getListCurrenciesDb()
     }
 
     fun sortOrder(value: String) {
@@ -99,5 +84,4 @@ class PopularViewModel @Inject constructor(
             }
         }
     }
-
 }
