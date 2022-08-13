@@ -10,4 +10,5 @@
     <color name="color_grey">#C4C4C4</color>
     <color name="color_green">#2ED25C</color>
     <color name="button_inactive">#BDFFFFFF</color>
+    <color name="blue">#145a92</color>
 </resources>

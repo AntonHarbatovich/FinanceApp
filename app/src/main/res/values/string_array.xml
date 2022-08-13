@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sorted_name">
+        <item>Alphabetically in ascending order</item>
+        <item>Alphabetically in descending order</item>
+        <item>By value in ascending order</item>
+        <item>By value in descending order</item>
+    </string-array>
+
+    <string-array name="sorted_value">
+        <item>alphabetically_ascending_order</item>
+        <item>alphabetically_descending_order</item>
+        <item>value_ascending_order</item>
+        <item>value_descending_order</item>
+    </string-array>
+</resources>
