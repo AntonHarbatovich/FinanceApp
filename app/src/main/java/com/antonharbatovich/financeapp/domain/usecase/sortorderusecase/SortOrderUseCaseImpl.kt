@@ -1,6 +1,6 @@
 package com.antonharbatovich.financeapp.domain.usecase.sortorderusecase
 
-import com.antonharbatovich.financeapp.data.Currency
+import com.antonharbatovich.financeapp.domain.entity.Currency
 
 class SortOrderUseCaseImpl : SortOrderUseCase {
 
@@ -9,22 +9,22 @@ class SortOrderUseCaseImpl : SortOrderUseCase {
         when (value) {
             alphabetically_ascending_order -> {
                 list = listCurrencies.sortedBy { currency ->
-                    currency.symbol
+                    currency.currencyDb.symbol
                 }
             }
             alphabetically_descending_order -> {
                 list = listCurrencies.sortedBy { currency ->
-                    currency.symbol
+                    currency.currencyDb.symbol
                 }.reversed()
             }
             value_ascending_order -> {
                 list = listCurrencies.sortedBy { currency ->
-                    currency.value
+                    currency.currencyDb.value
                 }
             }
             value_descending_order -> {
                 list = listCurrencies.sortedBy { currency ->
-                    currency.value
+                    currency.currencyDb.value
                 }.reversed()
             }
         }

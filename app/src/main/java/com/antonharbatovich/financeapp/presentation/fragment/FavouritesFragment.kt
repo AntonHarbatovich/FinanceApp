@@ -1,46 +1,51 @@
 package com.antonharbatovich.financeapp.presentation.fragment
 
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.antonharbatovich.financeapp.App
+import com.antonharbatovich.financeapp.R
 import com.antonharbatovich.financeapp.domain.entity.Currency
 import com.antonharbatovich.financeapp.domain.entity.UIState
 import com.antonharbatovich.financeapp.presentation.base.BaseFragment
-import com.antonharbatovich.financeapp.presentation.viewmodel.PopularViewModel
+import com.antonharbatovich.financeapp.presentation.viewmodel.FavouritesViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.make
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PopularFragment : BaseFragment() {
+class FavouritesFragment : BaseFragment() {
+
     @Inject
-    lateinit var popularViewModel: PopularViewModel
+    lateinit var viewModel: FavouritesViewModel
+
     override fun setupOnViewCreated() {
         observeUISate()
     }
 
     override fun setupOnCreateView() {
         App.appComponent.inject(this)
-        popularViewModel.getLatestCurrencies()
-        popularViewModel.getSymbols()
-        setTextCurrency(popularViewModel.baseCurrency)
+        viewModel.getListCurrenciesDb()
+        viewModel.getSymbols()
+        setTextCurrency(viewModel.baseCurrency)
     }
 
     override fun changeBaseCurrency(base: String) {
-        popularViewModel.changeBaseCurrency(base)
+        viewModel.changeBaseCurrency(base)
     }
 
     override fun setOrder(selectValue: String) {
-        popularViewModel.sortOrder(selectValue)
+        viewModel.sortOrder(selectValue)
     }
 
-    override fun setListSymbols(): List<String> = popularViewModel.setListSymbols()
+    override fun setListSymbols(): List<String> = viewModel.setListSymbols()
 
     override fun onStarClickListener(currency: Currency) {
-        popularViewModel.onStarClicked(currency)
+        viewModel.onStarClicked(currency)
     }
 
     private fun observeUISate() {
         viewLifecycleOwner.lifecycleScope.launch {
-            popularViewModel.uiState.collect { uiState ->
+            viewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is UIState.Loading -> startLoadingIndicator()
                     is UIState.Success -> {
@@ -48,10 +53,17 @@ class PopularFragment : BaseFragment() {
                         setCurrencies(uiState.data)
                     }
                     is UIState.Error -> {
-                        Snackbar.make(requireView(), uiState.message, Snackbar.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(), uiState.message, Toast.LENGTH_LONG).show()
                     }
                     is UIState.SortedOrder -> {
                         setCurrencies(uiState.data)
+                    }
+                    is UIState.UnknownError -> {
+                        Toast.makeText(
+                            requireActivity(),
+                            getString(R.string.description_error_unknown),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }

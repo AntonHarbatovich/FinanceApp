@@ -11,4 +11,9 @@
         android:name="com.antonharbatovich.financeapp.presentation.fragment.PopularFragment"
         android:label="PopularFragment"
         tools:layout="@layout/base_fragment"/>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.antonharbatovich.financeapp.presentation.fragment.FavouritesFragment"
+        android:label="FavouritesFragment"
+        tools:layout="@layout/base_fragment"/>
 </navigation>
