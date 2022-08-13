@@ -1,10 +1,7 @@
 package com.antonharbatovich.financeapp.data.db.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 import com.antonharbatovich.financeapp.data.db.entity.CurrencyDb
 
 @Dao
@@ -17,4 +14,7 @@ interface CurrenciesDao {
 
     @Query("SELECT * FROM CurrencyDb WHERE baseCurrency = :base")
     suspend fun getListCurrencies(base: String): List<CurrencyDb>
+
+    @Update
+    suspend fun updateCurrency(currencyDb: CurrencyDb)
 }

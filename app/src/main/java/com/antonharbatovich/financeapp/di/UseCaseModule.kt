@@ -62,6 +62,6 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideCheckLatestCurrenciesUseCase(dataBaseSource: DataBaseSource): CheckLatestCurrenciesUseCase {
-        return CheckLatestCurrenciesUseCaseImpl()
+        return CheckLatestCurrenciesUseCaseImpl(dataBaseSource)
     }
 }

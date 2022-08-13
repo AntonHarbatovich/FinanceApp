@@ -1,12 +1,15 @@
 package com.antonharbatovich.financeapp.presentation.fragment
 
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.antonharbatovich.financeapp.App
+import com.antonharbatovich.financeapp.R
 import com.antonharbatovich.financeapp.domain.entity.Currency
 import com.antonharbatovich.financeapp.domain.entity.UIState
 import com.antonharbatovich.financeapp.presentation.base.BaseFragment
 import com.antonharbatovich.financeapp.presentation.viewmodel.FavouritesViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.make
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +26,7 @@ class FavouritesFragment : BaseFragment() {
         App.appComponent.inject(this)
         viewModel.getListCurrenciesDb()
         viewModel.getSymbols()
+        setTextCurrency(viewModel.baseCurrency)
     }
 
     override fun changeBaseCurrency(base: String) {
@@ -49,10 +53,17 @@ class FavouritesFragment : BaseFragment() {
                         setCurrencies(uiState.data)
                     }
                     is UIState.Error -> {
-                        Snackbar.make(requireView(), uiState.message, Snackbar.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(), uiState.message, Toast.LENGTH_LONG).show()
                     }
                     is UIState.SortedOrder -> {
                         setCurrencies(uiState.data)
+                    }
+                    is UIState.UnknownError -> {
+                        Toast.makeText(
+                            requireActivity(),
+                            getString(R.string.description_error_unknown),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }

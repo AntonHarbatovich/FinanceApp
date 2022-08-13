@@ -2,6 +2,7 @@ package com.antonharbatovich.financeapp.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.antonharbatovich.financeapp.data.db.entity.CurrencyDb
 import com.antonharbatovich.financeapp.domain.entity.Currency
 import com.antonharbatovich.financeapp.domain.entity.Result
 import com.antonharbatovich.financeapp.domain.entity.UIState
@@ -35,7 +36,8 @@ class PopularViewModel @Inject constructor(
                         is Result.Loading -> setUiState(UIState.Loading)
                         is Result.Success -> {
                             result.data?.let { data ->
-                                listCurrencies = checkLatestCurrenciesUseCase(data)
+                                listCurrencies = checkLatestCurrencies(data)
+                                Log.e("PopularViewModel", "$listCurrencies")
                                 setUiState(UIState.Success(listCurrencies))
                             }
                         }
@@ -44,10 +46,15 @@ class PopularViewModel @Inject constructor(
                                 setUiState(UIState.Error(message))
                             }
                         }
+                        is Result.UnknownError -> UIState.UnknownError
                     }
                 }
             }
         }
+    }
+
+    private suspend fun checkLatestCurrencies(list: List<CurrencyDb>): List<Currency> {
+        return checkLatestCurrenciesUseCase(list)
     }
 
     fun getSymbols() {
@@ -65,6 +72,7 @@ class PopularViewModel @Inject constructor(
                                 setUiState(UIState.Error(message))
                             }
                         }
+                        is Result.UnknownError -> UIState.UnknownError
                         else -> {}
                     }
                 }
@@ -91,10 +99,10 @@ class PopularViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 if (currency.checkable) {
                     insertDbCurrencyUseCase(currency.currencyDb)
-                    Log.e("PopularViewModel","insertDbCurrencyUseCase")
+                    Log.e("PopularViewModel", "insertDbCurrencyUseCase")
                 } else {
                     deleteDbCurrencyUseCase(currency.currencyDb)
-                    Log.e("PopularViewModel","deleteDbCurrencyUseCase")
+                    Log.e("PopularViewModel", "deleteDbCurrencyUseCase")
                 }
             }
         }

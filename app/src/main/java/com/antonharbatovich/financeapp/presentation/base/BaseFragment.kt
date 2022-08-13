@@ -35,7 +35,6 @@ abstract class BaseFragment : Fragment() {
         setIconMenu()
         setupOnViewCreated()
         setOnClickListener()
-        setTextCurrency(view.context.getString(R.string.currency_name_usd))
     }
 
     private fun setOnClickListener() {
@@ -73,6 +72,7 @@ abstract class BaseFragment : Fragment() {
     abstract fun setListSymbols(): List<String>
     abstract fun onStarClickListener(currency: Currency)
 
+
     private fun openSortDialogFragment() {
 
         val itemsTitle = resources.getStringArray(R.array.sorted_name)
@@ -93,7 +93,7 @@ abstract class BaseFragment : Fragment() {
             }.show()
     }
 
-    private fun setTextCurrency(text: String) {
+    fun setTextCurrency(text: String) {
         binding.baseFragmentToolbarCurrencyName.text = text
     }
 

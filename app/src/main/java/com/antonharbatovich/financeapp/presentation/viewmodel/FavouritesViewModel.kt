@@ -50,6 +50,7 @@ class FavouritesViewModel @Inject constructor(
                                 setUiState(UIState.Error(message))
                             }
                         }
+                        is Result.UnknownError -> UIState.UnknownError
                         else -> {}
                     }
                 }

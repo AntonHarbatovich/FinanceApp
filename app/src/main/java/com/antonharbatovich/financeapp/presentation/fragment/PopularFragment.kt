@@ -21,6 +21,7 @@ class PopularFragment : BaseFragment() {
         App.appComponent.inject(this)
         popularViewModel.getLatestCurrencies()
         popularViewModel.getSymbols()
+        setTextCurrency(popularViewModel.baseCurrency)
     }
 
     override fun changeBaseCurrency(base: String) {

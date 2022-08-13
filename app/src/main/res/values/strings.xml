@@ -5,6 +5,7 @@
     <string name="text_favourites">Favourites</string>
     <string name="currency_name_usd">USD</string>
     <string name="title_sort">Sort</string>
-    <string name="title_button_ok">ok</string>
-    <string name="title_button_cancel">cancel</string>
+    <string name="title_button_ok">OK</string>
+    <string name="title_button_cancel">Cancel</string>
+    <string name="description_error_unknown">Unknown error. Please contact the developers of the application with this error.</string>
 </resources>

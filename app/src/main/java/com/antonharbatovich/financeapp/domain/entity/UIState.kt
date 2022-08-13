@@ -5,4 +5,5 @@ sealed class UIState {
     class Success(val data: List<Currency>) : UIState()
     class Error(val message: String) : UIState()
     class SortedOrder(val data: List<Currency>) : UIState()
+    object UnknownError : UIState()
 }
