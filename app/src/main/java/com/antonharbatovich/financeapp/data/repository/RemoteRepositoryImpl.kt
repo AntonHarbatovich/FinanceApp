@@ -1,6 +1,6 @@
 package com.antonharbatovich.financeapp.data.repository
 
-import com.antonharbatovich.financeapp.data.Currency
+import com.antonharbatovich.financeapp.data.db.entity.CurrencyDb
 import com.antonharbatovich.financeapp.data.api.ExchangeRatesService
 import com.antonharbatovich.financeapp.domain.entity.Result
 import com.antonharbatovich.financeapp.domain.repository.RemoteRepository
@@ -11,13 +11,13 @@ import javax.inject.Inject
 class RemoteRepositoryImpl @Inject constructor(
     private val service: ExchangeRatesService
 ) : RemoteRepository {
-    override suspend fun getLatestCurrencies(base: String): Flow<Result<List<Currency>>> = flow {
+    override suspend fun getLatestCurrencies(base: String): Flow<Result<List<CurrencyDb>>> = flow {
         emit(Result.Loading())
         val response = service.getLatestCurrencies(base)
         if (response.isSuccessful) {
-            val currencies: List<Currency> =
+            val currencies: List<CurrencyDb> =
                 response.body()!!.rates.entries.map { entry ->
-                    Currency(response.body()!!.base, entry.key, entry.value)
+                    CurrencyDb(response.body()!!.base, entry.key, entry.value)
                 }
             emit(Result.Success(currencies))
         } else {

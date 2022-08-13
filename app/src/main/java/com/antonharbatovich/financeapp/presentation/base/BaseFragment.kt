@@ -5,8 +5,8 @@ import android.view.*
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import com.antonharbatovich.financeapp.R
-import com.antonharbatovich.financeapp.data.Currency
 import com.antonharbatovich.financeapp.databinding.BaseFragmentBinding
+import com.antonharbatovich.financeapp.domain.entity.Currency
 import com.antonharbatovich.financeapp.presentation.adapter.BaseAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -14,7 +14,9 @@ abstract class BaseFragment : Fragment() {
 
     private var _binding: BaseFragmentBinding? = null
     private val binding get() = _binding!!
-    private val adapter = BaseAdapter()
+    private val adapter = BaseAdapter {
+        onStarClickListener(it)
+    }
     private var itemDialogIndex = 0
 
     override fun onCreateView(
@@ -51,11 +53,11 @@ abstract class BaseFragment : Fragment() {
             for (i in listSymbols.indices) {
                 popupMenu.menu.add(i, Menu.FIRST, i, listSymbols[i])
             }
-                popupMenu.setOnMenuItemClickListener { item ->
-                    setCurrencyName(item.title.toString())
-                    changeBaseCurrency(item.title.toString())
-                    false
-                }
+            popupMenu.setOnMenuItemClickListener { item ->
+                setCurrencyName(item.title.toString())
+                changeBaseCurrency(item.title.toString())
+                false
+            }
             popupMenu.show()
         }
     }
@@ -69,6 +71,7 @@ abstract class BaseFragment : Fragment() {
     abstract fun changeBaseCurrency(base: String)
     abstract fun setOrder(selectValue: String)
     abstract fun setListSymbols(): List<String>
+    abstract fun onStarClickListener(currency: Currency)
 
     private fun openSortDialogFragment() {
 

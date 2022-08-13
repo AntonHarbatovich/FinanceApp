@@ -2,6 +2,7 @@ package com.antonharbatovich.financeapp.presentation.fragment
 
 import androidx.lifecycle.lifecycleScope
 import com.antonharbatovich.financeapp.App
+import com.antonharbatovich.financeapp.domain.entity.Currency
 import com.antonharbatovich.financeapp.domain.entity.UIState
 import com.antonharbatovich.financeapp.presentation.base.BaseFragment
 import com.antonharbatovich.financeapp.presentation.viewmodel.PopularViewModel
@@ -30,6 +31,10 @@ class PopularFragment : BaseFragment() {
 
     override fun setListSymbols(): List<String> {
        return popularViewModel.setListSymbols()
+    }
+
+    override fun onStarClickListener(currency: Currency) {
+        popularViewModel.onStarClicked(currency)
     }
 
     private fun observeUISate() {
